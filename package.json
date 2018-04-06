@@ -1,0 +1,7 @@
+{
+  "name": "wb_comment",
+  "version": "v0.1",
+  "dependencies": {
+    "request": "^2.85.0"
+  }
+}
