@@ -2,7 +2,7 @@
 const request = require('request');
 const xhtml = require('./xhtml');
 const fs = require('fs')
-const cookie = require('./cookie.json');
+const cookie = require('./cookie');
 let header = {
   "Accept-Language": "zh-CN,zh;q=0.9",
   "Content-Type": "application/x-www-form-urlencoded",
