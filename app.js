@@ -8,8 +8,7 @@ let header = {
   "Content-Type": "application/x-www-form-urlencoded",
   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36"
 }
-//根据用户id查找指定的用户
-let userId = "2524431250"
+//"2524431250"
 //如果cookie以字符串形式存储则不用cookie_str进行转化
 header.Cookie = (typeof (header) == "string") ? cookie : xhtml.cookie_str(cookie);
 //取每一页的所有数据,因为存在懒加载,所以需要将pagebar配置为0和1各取一遍
