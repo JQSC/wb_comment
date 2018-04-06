@@ -53,6 +53,7 @@ class xhtml {
             //判斷是否包含此id
             let isConclude = xhtml.isCommentId(result[1], commentList)
             if (!isConclude) {
+                console.log(`${result[2]}参与了评论!`)
                 commentList.push(
                     {
                         id: result[1],

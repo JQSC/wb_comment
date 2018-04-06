@@ -9,17 +9,17 @@ let header = {
   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36"
 }
 //根据用户id查找指定的用户
-const userId = "2524431250"
+let userId = "2524431250"
 //如果cookie以字符串形式存储则不用cookie_str进行转化
 header.Cookie = (typeof (header) == "string") ? cookie : xhtml.cookie_str(cookie);
 //取每一页的所有数据,因为存在懒加载,所以需要将pagebar配置为0和1各取一遍
-async function main() {
+async function main(uid) {
   const url = "https://weibo.com/p/aj/v6/mblog/mbloglist?domain=100505&is_search=0&visible=0&is_ori=1&is_tag=0&profile_ftype=1&pl_name=Pl_Official_MyProfileFeed__20&feed_type=0&domain_op=100505"
   let sMaxPage = 0;
   let pagebar = 0; //0 或者1
   let pageDataList = [], listInfo = null, type = 1;
   while (type) {
-    let wburl = url + `&id=100505${userId}&page=${sMaxPage}&pagebar=${pagebar}&pre_page=${sMaxPage}`;
+    let wburl = url + `&id=100505${uid}&page=${sMaxPage}&pagebar=${pagebar}&pre_page=${sMaxPage}`;
     listInfo = await fetchContentHtml(wburl)  //[{pubTime,mid},]
     if (!listInfo || !listInfo.length) {
       type = 0;//结束循环
@@ -69,7 +69,6 @@ async function getCommentAll(pageDataList) {
     gzip: true
   }
   let commentUrl = "https://weibo.com/aj/v6/comment/small?ajwvr=6&act=list&isMain=true&dissDataFromFeed=%5Bobject%20Object%5D&location=page_100505_home&comment_type=0&_t=0"
-  commentUrl += `&ouid=${userId}`
   let commentList = [];
   for (let arr of pageDataList) {
     for (let o of arr) {
@@ -99,8 +98,10 @@ function fetchCommentHtml(options, commentList) {
     })
   });
 }
-//comment()
-main()
+
+let argvs = process.argv;
+let uid = argvs[2];
+main(uid)
 
 
 
