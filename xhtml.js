@@ -36,36 +36,41 @@ class xhtml {
         return arr
     }
     static isCommentId(id, list) {
-        if (list.length > 0) {
-            return list.some(function (o, index, array) {
-                if (o.id == id) {
-                    o.commentNum++
-                    return true
-                }
-            })
+        if (list.length) { return false }
+        let index = -1;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id == id) {
+                return i
+            }
         }
+        return index
     }
+    //获取评论详情
     static getCommentDetail(html, commentList) {
         const regex_comment = /node-type="replywrap">[^]*?usercard="id=(\d+)"[^]*?>([^]*?)<\/a>/g
         let result;
         //4219921246273207
         while ((result = regex_comment.exec(html)) != null) {
             //判斷是否包含此id
-            let isConclude = xhtml.isCommentId(result[1], commentList)
-            if (!isConclude) {
-                console.log(`${result[2]}参与了评论!`)
+            let userId = result[1], userName = result[2];
+            //判断此用户是否已经评论过，如果评论过则返回在数组中的位置
+            let isCommentToPosition = xhtml.isCommentId(userId, commentList)
+            if (~isCommentToPosition) {
+                commentList[isCommentToPosition].commentNum++
+            } else {
                 commentList.push(
                     {
-                        id: result[1],
-                        name: result[2],
+                        id: userId,
+                        name: userName,
                         commentNum: 1
                     }
                 )
+                console.log(`${userName}参与了评论!`)
             }
-            //console.log(result[1])
         }
         return commentList
     }
+    //排序
     static commentSort(arr) {
         return arr.sort(function (a, b) {
             return b.commentNum - a.commentNum

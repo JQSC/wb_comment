@@ -10,7 +10,7 @@ let header = {
 }
 //"2524431250"
 //如果cookie以字符串形式存储则不用cookie_str进行转化
-header.Cookie = (typeof (header) == "string") ? cookie : xhtml.cookie_str(cookie);
+header.Cookie = (typeof (cookie) == "string") ? cookie : xhtml.cookie_str(cookie);
 //取每一页的所有数据,因为存在懒加载,所以需要将pagebar配置为0和1各取一遍
 async function main(uid) {
   const url = "https://weibo.com/p/aj/v6/mblog/mbloglist?domain=100505&is_search=0&visible=0&is_ori=1&is_tag=0&profile_ftype=1&pl_name=Pl_Official_MyProfileFeed__20&feed_type=0&domain_op=100505"
@@ -26,7 +26,9 @@ async function main(uid) {
       console.info(`正在解析第${sMaxPage + 1}页第${pagebar + 1}栏`)
       let l = pageDataList.length;
       //首页内容列表可能不足两栏，会存在重复情况
-      if (l == 1 && pageDataList[l - 1][0].mid == listInfo[0].mid) {
+      let oldMid = pageDataList[l - 1][0].mid;
+      let newMid = listInfo[0].mid;
+      if (l == 1 && oldMid == newMid) {
         sMaxPage++
       } else {
         pageDataList.push(listInfo)
